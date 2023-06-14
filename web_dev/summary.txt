@@ -1,0 +1,36 @@
+Flask 모듈
+    마이크로 웹 프레임워크. 파이썬으로
+    웹 서버를 구축할 수 있는 라이브러리.
+
+    Flask 설치
+    > pip install Flask
+
+    from flask import Flask
+
+    1) flask 객체 생성
+        식별자 = Flask(__name__)
+        
+        __name__의 값을 전달하여 flask 인스턴스를
+        생성.
+    2) flask 실행
+        식별자.run()
+        run 메소드의 옵션>
+          - debug=True : 개발 시에 설정.
+                    코드가 변경되면 자동으로 
+                    flask 재시작.
+          - port=번호 : 포트번호 변경.
+                    기본 포트번호 5000.
+    3) url 매핑 : 
+        @app.route('/url', methods=['GET'])
+          get 방식 : methods=['GET']
+          post 방식 : methods=['POST']
+
+    4) url을 통한 데이터 전송
+        @app.route('/url/<data1>/<data2>')
+        def method(data1, data2)
+
+        숫자 유형의 데이터
+        @app.route('/url/<int:data>')
+        def method(data)
+
+    5) render_template('html파일')
