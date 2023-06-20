@@ -91,13 +91,14 @@ class Tic_Tac_Toe:
         for row in self.board :
             for item in row :
                 print(item, end =" ")
-                print()
+            print()
 
     # 게임 시작
     def start(self):
 
         # 새 게임판 생성
         self.create_board()
+        print("틱텍토 게임을 시작합니다.")
         self.show_board()
 
         # 첫 플레이어 선택
@@ -112,52 +113,53 @@ class Tic_Tac_Toe:
             else :
                 print("사용자 차례입니다.")
                 
-                # 현재 게임판 상태 출력
-                self.show_board()
+            # 현재 게임판 상태 출력
+            # print("현재 게임 진행 상황입니다.")
+            # self.show_board()
 
-                # 사용자 입력 대기, 컴퓨터일 경우 랜덤 위치 반환
-                    
-                if player == 'X' :
-                    while True :
-                        row, col = random.randint(1, 3), random.randint(1, 3)
-                        if self.board[row -1 ][col -1] == '*' :
-                            break
+            # 사용자 입력 대기, 컴퓨터일 경우 랜덤 위치 반환
+                
+            if player == 'X' :
+                while True :
+                    row, col = random.randint(1, 3), random.randint(1, 3)
+                    if self.board[row -1 ][col -1] == '*' :
+                        break
 
-                    print("컴퓨터가 행" + str(row) + ", 열" + str(col) + "을/를 선택했습니다.")
-                    print()
-                else :
-                    row, col = list(map(int, input("선택할 빈칸의 위치를 입력하세요: ").split()))
-                    print("사용자가 행" + str(row) + ", 열" + str(col) + "을/를 선택했습니다.")
-                    print()
+                print("컴퓨터가 행" + str(row) + ", 열" + str(col) + "을 선택했습니다.")
+                print()
+            else :
+                row, col = list(map(int, input("선택할 빈칸의 위치를 입력하세요: ").split()))
+                print("사용자가 행" + str(row) + ", 열" + str(col) + "을 선택했습니다.")
+                print()
 
-                # row, col 입력값이 0,0인 경우 게임 종료
-                if row == 0 and col == 0 :
-                    print("게임이 종료됩니다.")
-                    break;
+            # row, col 입력값이 0,0인 경우 게임 종료
+            if row == 0 and col == 0 :
+                print("게임이 종료됩니다.")
+                break;
 
-                # 입력된 위치 표시
-                self.mark_spot(row, col, player)
-                self.show_board()
-
-                # 현재 플레이어가 이겼는지 확인
-                if self.is_win(player) == True :
-                    if player == 'X' :
-                        print("컴퓨터가 이겼습니다. 다시 도전하세요.")
-                    else :
-                        print("사용자가 이겼습니다. 축하합니다.")
-                    break
-
-                # 게임판 가득참 확인, 빈칸 여부 확인
-                if self.is_board_full() == True :
-                    print("무승부입니다. 다시 도전하세요.")
-                    break
-
-                # 플레이어 변경
-                player = self.next_player(player)
-
-            # 최종 게임판 출력
-            print()
+            # 입력된 위치 표시
+            self.mark_spot(row, col, player)
             self.show_board()
+
+            # 현재 플레이어가 이겼는지 확인
+            if self.is_win(player) == True :
+                if player == 'X' :
+                    print("컴퓨터가 이겼습니다. 다시 도전하세요.")
+                else :
+                    print("사용자가 이겼습니다. 축하합니다.")
+                break
+
+            # 게임판 가득참 확인, 빈칸 여부 확인
+            if self.is_board_full() == True :
+                print("무승부입니다. 다시 도전하세요.")
+                break
+
+            # 플레이어 변경
+            player = self.next_player(player)
+
+        # 최종 게임판 출력
+        print()
+        self.show_board()
 
 
 # 게임 생성
