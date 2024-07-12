@@ -1,6 +1,10 @@
 
-Scrapy는 웹 크롤링과 웹 스크래핑을 위한 강력하고 사용하기 쉬운 파이썬 프레임워크이다.
-Scrapy는 주로 데이터를 수집하고 분석하는 데 사용되며, 빠르고 효율적인 크롤링 작업을 수행할 수 있도록 설계되았다.
+# 파이썬 크롤링 프레임워크 Scrapy
+
+
+Scrapy는 웹 크롤링과 웹 스크래핑을 위한 강력하고 사용하기 쉬운 파이썬 프레임워크.
+
+Scrapy는       주로 데이터를 수집하고 분석하는 데 사용되며, 빠르고 효율적인 크롤링 작업을 수행할 수 있도록 설계되았다.
 
 ### 주요 특징
 1. 빠르고 효율적: Scrapy는 비동기 I/O를 사용하여 빠르고 효율적으로 웹 페이지를 크롤링한다.
@@ -33,5 +37,35 @@ scrapy startproject myproject
   myproject/spiders 디렉토리 아래에 새로운 스파이더 파일을 생성한다.
   예를 들어, quotes_spider.py 파일을 생성한다.
 
+```python
+import scrapy
+
+class QuotesSpider(scrapy.Spider):
+    name = "quotes"
+    start_urls = ['http://quotes.toscrape.com']
+
+    def parse(self, response):
+        for quote in response.css('div.quote'):
+            yield {
+                'text': quote.css('span.text::text').get(),
+                'author': quote.css('span small.author::text').get(),
+                'tags': quote.css('div.tags a.tag::text').getall(),
+            }
+        
+        next_page = response.css('li.next a::attr(href)').get()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+
+```
+
 5. 스파이더 실행
-6. 데이터 저장
+```sh
+scrapy crawl quotes
+```
+
+7. 데이터 저장
+json 포맷으로 데이터를 저장한다.
+
+```sh
+scrapy crawl quotes -o quotes.json
+```
