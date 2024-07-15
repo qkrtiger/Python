@@ -50,9 +50,12 @@ python main.py
 `http://127.0.0.1:5000/search?keyword=your_keyword`
 
 
--- 실행 명령어
+## 관련 명령어
 
 ```
 터미널에서 가상 환경 비활성화
 deactivate
+
+가상환경 완전히 삭제
+rm -rf venv
 ```
