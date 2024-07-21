@@ -19,6 +19,9 @@ if response.status_code == 200:
     # BeautifulSoup을 사용하여 HTML 파싱
     soup = BeautifulSoup(response.text, 'html.parser')
     
+    with open(f"{keyword}_instagram_data.txt", "w", encoding="utf-8") as file:
+        file.write(soup.prettify())
+    
     parent_element = soup.find('span', class_='_ac2a')
     
     if parent_element:
