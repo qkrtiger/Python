@@ -4,7 +4,6 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 # 저장해 둔 모델을 불러와서 활용
-
 loaded_model = tf.keras.models.load_model('mnist_model.h5')
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
 sample_image = test_images[2]
