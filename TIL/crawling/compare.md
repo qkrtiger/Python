@@ -11,7 +11,7 @@
 #### 작동방식
 - HTML 가져오기: requests 라이브러리와 함께 사용하여 HTML을 가져온다.
 - HTML 파싱: BeautifulSoup을 사용하여 HTML을 파싱한다.
-- 데이터 추출: 파싱된 HTML에서 필요한 데이터를 탐색하고 추출한다.
+- 데이터 추출: 파싱된 HTML에서 필요한 데이터를 탐색하고 추출
 
 ```python
 import requests
