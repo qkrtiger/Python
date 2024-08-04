@@ -40,14 +40,16 @@ class Car(object):
     def get_price_culc(self):
         return 'After Car Price -> company : {}, price : {}'.format(self._company, self._details.get('price') * Car.price_per_raise)
 
-    # Class Method
+    # Class Method -> 클래스 변수를 사용할 때 사용
     @classmethod
     def raise_price(cls, per):
         if per <= 1:
             print('Please Enter 1 or More')
             return
+        # 1 이상이면 클래스 변수를 업데이트
         cls.price_per_raise = per
-        return 'Succeed! price increased.'
+        # return 'Succeed! price increased.'
+        print('Succeed! price increased.')
 
     # Static Method
     @staticmethod
@@ -77,6 +79,7 @@ print(car2.get_price())
 print()
 
 # 가격 인상(클래스 메소드 미사용)
+# 이 방법도 가능하지만, 클래스 변수를 직접 접근하는 것은 좋지 않다.
 Car.price_per_raise = 1.2
 
 # 가격 정보(인상 후)
@@ -85,6 +88,7 @@ print(car2.get_price_culc())
 print()
 
 # 가격 인상(클래스 메소드 사용)
+# 클래스 메소드를 사용하면 클래스 변수를 직접 접근하지 않아도 된다.
 Car.raise_price(1.6)
 print()
 
