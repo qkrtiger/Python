@@ -98,6 +98,7 @@ print(car2.get_price_culc())
 print()
 
 # Bmw 여부(스테이틱 메소드 미사용)
+# 유연하게 작동함
 def is_bmw(inst):
     if inst._company == 'Bmw':
         return 'OK! This car is {}.'.format(inst._company)
@@ -108,7 +109,7 @@ print(is_bmw(car1))
 print(is_bmw(car2))
 print()
 
-# Bmw 여부(스테이틱 메소드 사용)
+# Bmw 여부(스테이틱 메소드 사용) - 클래스로 호출
 print('Static : ', Car.is_bmw(car1))
 print('Static : ', Car.is_bmw(car2))
 print()
