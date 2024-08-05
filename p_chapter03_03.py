@@ -12,6 +12,7 @@
 pt1 = (1.0, 5.0)
 pt2 = (2.5, 1.5)
 
+# 루트 호출
 from math import sqrt
 
 l_leng1 = sqrt((pt2[0] - pt1[0]) ** 2 + (pt2[1] - pt1[1]) ** 2)
