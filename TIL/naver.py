@@ -20,9 +20,15 @@ driver = webdriver.Chrome()
 
 # 네이버 로그인 페이지로 이동
 driver.get("https://nid.naver.com/nidlogin.login")
-pdb.set_trace()
+
 
 input("로그인 후 엔터를 눌러주세요.")
+
+user_id = driver.find_element(By.ID, "id").get_attribute("value")
+print(f"Logged in user ID: {user_id}")
+
+pdb.set_trace()
+driver.get("https://m.blog.naver.com/hi_0314?tab=1")
 
 # 아이디와 비밀번호 입력
 id_input = driver.find_element(By.ID, 'id')
