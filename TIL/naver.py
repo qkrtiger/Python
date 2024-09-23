@@ -38,7 +38,7 @@ chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-images")  # 이미지 로드 방지
-chrome_options.add_argument("--disable-javascript") # 자바스크립트 로드 방지
+# chrome_options.add_argument("--disable-javascript") # 자바스크립트 로드 방지
 # chrome_options.add_argument("--headless")  # Headless 모드로 실행하고 싶으면 추가
 
 # ChromeDriver 자동 설치 및 설정
@@ -73,7 +73,7 @@ link_arr = []
 if user_id:
     driver.get(f"https://m.blog.naver.com/{user_id}")
     
-    embed(globals(), locals())
+    # embed(globals(), locals())
     # 팝업창이 있을 경우 닫기 버튼 클릭
     res = close_popup(driver)
 
@@ -81,6 +81,19 @@ if user_id:
     # cate_btn = driver.find_element(By.CLASS_NAME, "link__dkflP")
     cate_btn = driver.find_element(By.XPATH, "//button[.//span[text()='카테고리']]")
     cate_btn.click()
+    
+    try:
+        # span 요소 중 '록'이라는 텍스트가 포함된 요소를 찾음
+        span_el = driver.find_element(By.XPATH, "//span[contains(text(), '점')]")
+        # 해당 span 요소의 상위 a 태그 찾기
+        a_tag = span_el.find_element(By.XPATH, "./ancestor::a")
+        # a 태그의 href 속성을 가져옴
+        link = a_tag.get_attribute("href")
+        link_arr.append(link)
+        
+        print("링크 주소:", link)
+    except Exception as e:
+        print("오류 발생:", e)
     
 # # 검색창 찾기, 검색어 입력 및 검색
 # search_box = driver.find_element("name", "q")
