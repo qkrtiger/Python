@@ -84,14 +84,31 @@ if user_id:
     
     try:
         # span 요소 중 '록'이라는 텍스트가 포함된 요소를 찾음
-        span_el = driver.find_element(By.XPATH, "//span[contains(text(), '점')]")
-        # 해당 span 요소의 상위 a 태그 찾기
-        a_tag = span_el.find_element(By.XPATH, "./ancestor::a")
-        # a 태그의 href 속성을 가져옴
-        link = a_tag.get_attribute("href")
-        link_arr.append(link)
+        # span_el = driver.find_element(By.XPATH, "//span[contains(text(), '점')]")
+        # # 해당 span 요소의 상위 a 태그 찾기
+        # a_tag = span_el.find_element(By.XPATH, "./ancestor::a")
+        # # a 태그의 href 속성을 가져옴
+        # link = a_tag.get_attribute("href")
+        # link_arr.append(link)
+        # span 요소들 중 텍스트를 하나씩 확인
+        span_els = driver.find_elements(By.XPATH, "//span[@class='text__j6LKZ ell']//span")
+
+        for span_el in span_els:
+            # span의 텍스트 가져오기
+            text = span_el.text.strip()
+            
+            # 텍스트가 '점'으로 끝나는지 확인
+            if text.endswith("점"):
+                # 상위 a 태그 찾기
+                #TODO :  상위태그에서 값 찾아야 함 
+                a_tag = span_el.find_element(By.XPATH, "./ancestor::a")
+                # a 태그의 href 속성을 가져옴
+                link = a_tag.get_attribute("href")
+                link_arr.append(link)
+
         
-        print("링크 주소:", link)
+        print("링크 주소:", link_arr)
+        
     except Exception as e:
         print("오류 발생:", e)
     
