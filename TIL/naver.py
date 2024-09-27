@@ -30,7 +30,7 @@ def close_popup(driver, wait_time=10, class_name="_da-close"):
         return True
     except Exception as e:
         print(f"팝업창이 나타나지 않음 또는 클릭 실패: {e}")
-        return False
+        return True
 
 # Chrome 설정 옵션
 chrome_options = Options()
@@ -91,23 +91,25 @@ if user_id:
         # link = a_tag.get_attribute("href")
         # link_arr.append(link)
         # span 요소들 중 텍스트를 하나씩 확인
-        span_els = driver.find_elements(By.XPATH, "//span[@class='text__j6LKZ ell']//span")
-
-        for span_el in span_els:
+        
+        li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
+        
+        for li_el in li_els:
+            # li_el 내부에 있는 class가 'text__j6LKZ ell'인 span 태그를 찾기
+            span_el = li_el.find_element(By.XPATH, ".//span[@class='text__j6LKZ ell']//span")
+            
             # span의 텍스트 가져오기
             text = span_el.text.strip()
-            
-            # 텍스트가 '점'으로 끝나는지 확인
             if text.endswith("점"):
-                # 상위 a 태그 찾기
-                #TODO :  상위태그에서 값 찾아야 함 
-                a_tag = span_el.find_element(By.XPATH, "./ancestor::a")
-                # a 태그의 href 속성을 가져옴
+                print("텍스트:", text)
+                
+                a_tag = li_el.find_element(By.XPATH, "./ancestor::a")
                 link = a_tag.get_attribute("href")
                 link_arr.append(link)
-
-        
+                
         print("링크 주소:", link_arr)
+        
+        embed(globals(), locals()) 
         
     except Exception as e:
         print("오류 발생:", e)
