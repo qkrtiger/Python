@@ -92,7 +92,8 @@ if user_id:
         # link_arr.append(link)
         # span 요소들 중 텍스트를 하나씩 확인
         
-        li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
+        # li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
+        li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'category_list__VviwZ')]//li[@class='item__axzBh']")
         
         for li_el in li_els:
             # li_el 내부에 있는 class가 'text__j6LKZ ell'인 span 태그를 찾기
