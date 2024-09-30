@@ -29,7 +29,8 @@ def close_popup(driver, wait_time=10, class_name="_da-close"):
         print("팝업창 닫기 성공")
         return True
     except Exception as e:
-        print(f"팝업창이 나타나지 않음 또는 클릭 실패: {e}")
+        # print(f"팝업창이 나타나지 않음 또는 클릭 실패: {e}")
+        print(f"팝업창이 나타나지 않음 또는 클릭 실패:")
         return True
 
 # Chrome 설정 옵션
@@ -79,8 +80,9 @@ if user_id:
 
     # 카테고리 버튼 클릭(<button class="link__dkflP" data-clickcode="pgn.blogname"><i class="icon__MiNWr">카테고리 이동</i></button>)
     # cate_btn = driver.find_element(By.CLASS_NAME, "link__dkflP")
-    cate_btn = driver.find_element(By.XPATH, "//button[.//span[text()='카테고리']]")
-    cate_btn.click()
+    if res:
+        cate_btn = driver.find_element(By.XPATH, "//button[.//span[text()='카테고리']]")
+        cate_btn.click()
     
     try:
         # span 요소 중 '록'이라는 텍스트가 포함된 요소를 찾음
