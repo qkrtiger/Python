@@ -105,7 +105,8 @@ if user_id:
             text = span_el.text.strip()
             if text.endswith("점"):
                 print("텍스트:", text)
-                
+
+                # @TODO : 수정필요
                 a_tag = li_el.find_element(By.XPATH, "./ancestor::a")
                 link = a_tag.get_attribute("href")
                 link_arr.append(link)
