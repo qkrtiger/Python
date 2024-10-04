@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from bs4 import BeautifulSoup
 from ptpython.repl import embed
 import re
 
@@ -95,21 +96,26 @@ if user_id:
         # span 요소들 중 텍스트를 하나씩 확인
         
         # li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
-        li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'category_list__VviwZ')]//li[@class='item__axzBh']")
+        li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'category_list__VviwZ')]//li[@class='item__axzBh']")        
         
         for li_el in li_els:
+            full_html = li_el.get_attribute('outerHTML')
             # li_el 내부에 있는 class가 'text__j6LKZ ell'인 span 태그를 찾기
             span_el = li_el.find_element(By.XPATH, ".//span[@class='text__j6LKZ ell']//span")
+            soup = BeautifulSoup(full_html, 'html.parser')
             
             # span의 텍스트 가져오기
             text = span_el.text.strip()
             if text.endswith("점"):
                 print("텍스트:", text)
-
-                # @TODO : 수정필요
-                a_tag = li_el.find_element(By.XPATH, "./ancestor::a")
-                link = a_tag.get_attribute("href")
-                link_arr.append(link)
+                a_tag = soup.find('a', {'class': 'link__dkflP'})
+                if a_tag:
+                    link = a_tag['href']
+                    print("링크:", link)
+                    link_arr.append(link)
+                
+                # a_tag = full_html.find_element(By.XPATH, "./ancestor::a")
+                # link = a_tag.get_attribute("href")
                 
         print("링크 주소:", link_arr)
         
