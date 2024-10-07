@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+import requests
 from ptpython.repl import embed
 import re
 
@@ -119,7 +120,20 @@ if user_id:
                 
         print("링크 주소:", link_arr)
         
-        embed(globals(), locals()) 
+        # embed(globals(), locals()) 
+        for link in link_arr:
+            
+            url = f"https://m.blog.naver.com/{link}"
+            driver.get(url)
+            # response = requests.get(url)
+            # soup = BeautifulSoup(response.text, 'html.parser')
+            li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'list__A6ta5')]//li[@class='item__PxpH8']")
+            
+            # list_container = soup.find('li', class_='item__PxpH8')
+            # 그 안에 있는 'item__axzBh' 클래스를 가진 모든 요소를 리스트화
+            # items = list_container.find_all('li', class_='item__axzBh')
+            
+            
         
     except Exception as e:
         print("오류 발생:", e)
