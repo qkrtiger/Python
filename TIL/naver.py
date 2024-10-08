@@ -146,6 +146,22 @@ if user_id:
                     link = a_tag['href']
                     print("링크:", link)
                     driver.get(link)
+                    try:
+                        # '통계' 버튼이 나타날 때까지 최대 10초 대기
+                        stat_button = WebDriverWait(driver, 10).until(
+                            EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'btn_stat')]"))
+                        )
+                        
+                        # '통계' 버튼의 href 속성값 추출
+                        stat_url = stat_button.get_attribute('href')
+                        # print(f"'통계' 버튼 URL: {stat_url}")
+                        # stat_button.click()
+                        driver.get(stat_url)
+                        monthly_link = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='월간']/parent::a")))
+                        monthly_link.click()
+
+                    except Exception as e:
+                        print(f"요소를 찾는 중 문제가 발생했습니다: {e}")
                     # url_arr.append(link)
                 
             # list_container = soup.find('li', class_='item__PxpH8')
