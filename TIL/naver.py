@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import requests
+import time
 from ptpython.repl import embed
 import re
 
@@ -39,7 +40,9 @@ def close_popup(driver, wait_time=10, class_name="_da-close"):
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-gpu") # 그래픽 가속 비활성화
 chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--log-level=3")
 chrome_options.add_argument("--disable-images")  # 이미지 로드 방지
 # chrome_options.add_argument("--disable-javascript") # 자바스크립트 로드 방지
 # chrome_options.add_argument("--headless")  # Headless 모드로 실행하고 싶으면 추가
@@ -96,6 +99,7 @@ if user_id:
         # link_arr.append(link)
         # span 요소들 중 텍스트를 하나씩 확인
         
+        time.sleep(2)
         # li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
         li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'category_list__VviwZ')]//li[@class='item__axzBh']")        
         
@@ -120,15 +124,30 @@ if user_id:
                 
         print("링크 주소:", link_arr)
         
-        # embed(globals(), locals()) 
+        # embed(globals(), locals())
+        # url_arr = []
         for link in link_arr:
             
-            url = f"https://m.blog.naver.com/{link}"
+            url = f"https://m.blog.naver.com{link}"
             driver.get(url)
+            
+            close_popup(driver)
             # response = requests.get(url)
             # soup = BeautifulSoup(response.text, 'html.parser')
-            li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'list__A6ta5')]//li[@class='item__PxpH8']")
+            li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'list__A6ta5')]//li[@class='item__axzBh']")
             
+            for li_el in li_els:
+                
+                full_html = li_el.get_attribute('outerHTML')
+                soup = BeautifulSoup(full_html, 'html.parser')
+                
+                a_tag = soup.find('a', {'class': 'link__dkflP'})
+                if a_tag:
+                    link = a_tag['href']
+                    print("링크:", link)
+                    driver.get(link)
+                    # url_arr.append(link)
+                
             # list_container = soup.find('li', class_='item__PxpH8')
             # 그 안에 있는 'item__axzBh' 클래스를 가진 모든 요소를 리스트화
             # items = list_container.find_all('li', class_='item__axzBh')
