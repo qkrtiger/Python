@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 from ptpython.repl import embed
+import traceback
 import re
 
 def close_popup(driver, wait_time=10, class_name="_da-close"):
@@ -90,14 +91,7 @@ if user_id:
         cate_btn.click()
     
     try:
-        # span 요소 중 '록'이라는 텍스트가 포함된 요소를 찾음
-        # span_el = driver.find_element(By.XPATH, "//span[contains(text(), '점')]")
-        # # 해당 span 요소의 상위 a 태그 찾기
-        # a_tag = span_el.find_element(By.XPATH, "./ancestor::a")
-        # # a 태그의 href 속성을 가져옴
-        # link = a_tag.get_attribute("href")
-        # link_arr.append(link)
-        # span 요소들 중 텍스트를 하나씩 확인
+
         
         time.sleep(2)
         # li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
@@ -122,7 +116,7 @@ if user_id:
                 # a_tag = full_html.find_element(By.XPATH, "./ancestor::a")
                 # link = a_tag.get_attribute("href")
                 
-        print("링크 주소:", link_arr)
+        print("게시판 주소:", link_arr)
         
         # embed(globals(), locals())
         # url_arr = []
@@ -137,6 +131,7 @@ if user_id:
             # soup = BeautifulSoup(response.text, 'html.parser')
             li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'list__A6ta5')]//li[@class='item__axzBh']")
             
+            # 게시글 목록에서 각 게시글의 링크를 추출
             for li_el in li_els:
                 
                 full_html = li_el.get_attribute('outerHTML')
@@ -175,6 +170,7 @@ if user_id:
 
                     except Exception as e:
                         print(f"요소를 찾는 중 문제가 발생했습니다: {e}")
+                        print(traceback.format_exc())
                     # url_arr.append(link)
                 
             # list_container = soup.find('li', class_='item__PxpH8')
