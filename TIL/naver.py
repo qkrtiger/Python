@@ -131,7 +131,8 @@ if user_id:
             url = f"https://m.blog.naver.com{link}"
             driver.get(url)
             
-            close_popup(driver)
+            close_popup(driver)        
+            
             # response = requests.get(url)
             # soup = BeautifulSoup(response.text, 'html.parser')
             li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'list__A6ta5')]//li[@class='item__axzBh']")
@@ -152,6 +153,10 @@ if user_id:
                             EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'btn_stat')]"))
                         )
                         
+                        # 포스팅 제목 가져오기
+                        element = driver.find_element(By.ID, "_floating_menu_property")
+                        title = element.get_attribute("posttitle")
+                        
                         # '통계' 버튼의 href 속성값 추출
                         stat_url = stat_button.get_attribute('href')
                         # print(f"'통계' 버튼 URL: {stat_url}")
@@ -159,6 +164,14 @@ if user_id:
                         driver.get(stat_url)
                         monthly_link = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='월간']/parent::a")))
                         monthly_link.click()
+                        
+                        view = driver.find_element(By.XPATH, "//span[text()='조회수']/following-sibling::div//strong").text
+                        
+                        # embed(globals(), locals())
+                        
+                        with open('view_review.txt', 'w', encoding='utf-8') as out:
+                            out.write(f"{link}\t{title}\t{view}\n")
+                        
 
                     except Exception as e:
                         print(f"요소를 찾는 중 문제가 발생했습니다: {e}")
