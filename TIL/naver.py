@@ -14,7 +14,7 @@ import re
 
 def close_popup(driver, wait_time=10, class_name="_da-close"):
     """
-    팝업창이 있을 경우 닫기 버튼을 클릭하는 함수....
+    팝업창이 있을 경우 닫기 버튼을 클릭하는 함수.
     
     Parameters:
     driver (webdriver): Selenium WebDriver 인스턴스
@@ -105,7 +105,7 @@ if user_id:
             
             # span의 텍스트 가져오기
             text = span_el.text.strip()
-            if text.endswith("점"):
+            if text.endswith("술"):
                 print("텍스트:", text)
                 a_tag = soup.find('a', {'class': 'link__dkflP'})
                 if a_tag:
@@ -122,25 +122,31 @@ if user_id:
         # url_arr = []
         for link in link_arr:
             
-            url = f"https://m.blog.naver.com{link}"
+            link = link.rsplit('#', 1)[0]
+            url = f"https://m.blog.naver.com{link}&listStyle=photo"
             driver.get(url)
             
             close_popup(driver)        
             
             # response = requests.get(url)
             # soup = BeautifulSoup(response.text, 'html.parser')
+            
             li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'list__A6ta5')]//li[@class='item__axzBh']")
             
             # 게시글 목록에서 각 게시글의 링크를 추출
             for li_el in li_els:
                 
                 full_html = li_el.get_attribute('outerHTML')
+                print("full_html :: ", full_html)
+                
                 soup = BeautifulSoup(full_html, 'html.parser')
                 
                 a_tag = soup.find('a', {'class': 'link__dkflP'})
                 if a_tag:
                     link = a_tag['href']
                     print("링크:", link)
+                    
+                    # embed(globals(), locals())
                     driver.get(link)
                     try:
                         # '통계' 버튼이 나타날 때까지 최대 10초 대기
@@ -162,10 +168,13 @@ if user_id:
                         
                         view = driver.find_element(By.XPATH, "//span[text()='조회수']/following-sibling::div//strong").text
                         
-                        # embed(globals(), locals())
                         
-                        with open('view_review.txt', 'w', encoding='utf-8') as out:
-                            out.write(f"{link}\t{title}\t{view}\n")
+                        date_element = driver.find_element(By.XPATH, "//div[@class='u_ni_range_group']//span[@class='u_ni_range']")
+                        # 요소의 텍스트 가져오기
+                        date_text = date_element.text
+                        
+                        with open('view_review.txt', 'a', encoding='utf-8') as out:
+                            out.write(f"{link}\t{title}\t{date_text}\t{view}\n")
                         
 
                     except Exception as e:
