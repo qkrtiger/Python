@@ -14,7 +14,7 @@ import re
 
 def close_popup(driver, wait_time=10, class_name="_da-close"):
     """
-    팝업창이 있을 경우 닫기 버튼을 클릭하는 함수.
+    팝업창이 있을 경우 닫기 버튼을 클릭하는 함수
     
     Parameters:
     driver (webdriver): Selenium WebDriver 인스턴스
