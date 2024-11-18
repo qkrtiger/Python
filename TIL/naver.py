@@ -14,7 +14,7 @@ import re
 
 def close_popup(driver, wait_time=10, class_name="_da-close"):
     """
-    팝업창이 있을 경우 닫기 버튼을 클릭하는 함수
+    팝업창이 있을 경우 닫기 버튼을 클릭하는 함수.
     
     Parameters:
     driver (webdriver): Selenium WebDriver 인스턴스
@@ -90,9 +90,7 @@ if user_id:
         cate_btn = driver.find_element(By.XPATH, "//button[.//span[text()='카테고리']]")
         cate_btn.click()
     
-    try:
-
-        
+    try:        
         time.sleep(2)
         # li_els = driver.find_elements(By.XPATH, "//li[@class='item__axzBh']")
         li_els = driver.find_elements(By.XPATH, "//div[contains(@class, 'category_list__VviwZ')]//li[@class='item__axzBh']")        
@@ -126,7 +124,14 @@ if user_id:
             url = f"https://m.blog.naver.com{link}&listStyle=photo"
             driver.get(url)
             
-            close_popup(driver)        
+            close_popup(driver)
+            
+            photo_btn = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-clickcode="pls.albumv"]'))
+            )
+
+            # 버튼 클릭
+            photo_btn.click()
             
             # response = requests.get(url)
             # soup = BeautifulSoup(response.text, 'html.parser')
@@ -136,7 +141,9 @@ if user_id:
             # 게시글 목록에서 각 게시글의 링크를 추출
             for li_el in li_els:
                 
+                embed(globals(), locals())
                 full_html = li_el.get_attribute('outerHTML')
+                
                 print("full_html :: ", full_html)
                 
                 soup = BeautifulSoup(full_html, 'html.parser')
@@ -146,7 +153,7 @@ if user_id:
                     link = a_tag['href']
                     print("링크:", link)
                     
-                    # embed(globals(), locals())
+                    
                     driver.get(link)
                     try:
                         # '통계' 버튼이 나타날 때까지 최대 10초 대기
