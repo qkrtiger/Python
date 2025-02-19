@@ -1,3 +1,5 @@
+# 함수 실행시간 출력해주는 데코레이터 함수
+
 def timer(func):
     def wrapper(*args, **kwargs):
         start_time = time.time()
