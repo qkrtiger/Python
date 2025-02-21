@@ -1,4 +1,4 @@
-# 함수 실행시간 출력해주는 데코레이터 함수
+# 함수 실행시간 출력해주는 데코레이터 함수1
 
 def timer(func):
     def wrapper(*args, **kwargs):
